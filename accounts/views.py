@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.http import JsonResponse
-from accounts.forms import LoginForm,RegistrationForm
+from django.http import HttpResponse,JsonResponse
+from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 def index(request):
     username = request.user.username
@@ -9,30 +10,22 @@ def index(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-            else:
-                form.add_error(None, 'Invalid username or password.')
-    else:
-        form = LoginForm()
-    return render(request, "login.html",{'form': form})
-
-def register(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('index')
+            return render(request,"index.html")
+        else:
+            return render(request, 'index.html', {'error_message': 'Invalid username or password.'})
     else:
-        form = RegistrationForm()
-    return render(request, 'register.html', {'form': form})
+        return render(request, 'index.html')
 
-def manage(request):
-    return render(request, 'manage.html')
+def regist(request):
+    if request.method == 'GET':
+        return render(request, 'regist.html')
+    elif request.method == 'POST':
+        username = request.POST.get('username', None)
+        password1 = request.POST.get('password1', None)
+        user = CustomUser.objects.create_user(username=username, password=password1)
+    return redirect('index')
