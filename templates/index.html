@@ -28,7 +28,6 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
-            <li class="nav-item"><p>ユーザー名：{{ username }}</p></li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
             </li>
@@ -40,6 +39,10 @@
         </ul>
     </div>
 </nav>
+
+<body>
+    <p>ユーザー：{{ username }}</p>
+</body>
 
 <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -58,7 +61,7 @@
                         <div class="input-group mb-3" id="lo">
                             <input name="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
                         </div>
-                        
+                    </div>
                 </div>
                 <a href='{% url "regist" %}'>ユーザー作成</a>
                 <div class="modal-footer">

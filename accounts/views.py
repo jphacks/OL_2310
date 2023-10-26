@@ -29,3 +29,6 @@ def regist(request):
         password1 = request.POST.get('password1', None)
         user = CustomUser.objects.create_user(username=username, password=password1)
     return redirect('index')
+
+def manage(request):
+    return render(request,"manage.html")
