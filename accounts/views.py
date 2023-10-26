@@ -32,3 +32,9 @@ def regist(request):
 
 def manage(request):
     return render(request,"manage.html")
+
+def detail(request):
+    return render(request,"detail.html")
+
+def mypage(request):
+    return render(request,"mypage.html")

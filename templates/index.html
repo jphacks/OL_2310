@@ -41,7 +41,9 @@
 </nav>
 
 <body>
-    <p>ユーザー：{{ username }}</p>
+    {% if user.is_authenticated %}
+        <p>ユーザー：{{ username }}</p>
+    {% endif %}
 </body>
 
 <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
