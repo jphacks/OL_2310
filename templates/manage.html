@@ -1,0 +1,12 @@
+manage
+<a href="{% url 'index' %}">トップ</a>
+
+<form action="{% url 'manage' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="title">
+    <button type="submit">送信</button>
+</form>
+
+{% for book in books %}
+    <p>{{ book.title }}</p>
+{% endfor %}

@@ -1,0 +1,13 @@
+mypage
+<a href="{% url 'index' %}">トップ</a>
+{{ username }}
+
+<!--借りている本のリスト表示-->
+{% for book in borrowed_books %}
+<form method="post" action="{% url 'return_books' %}">
+    {% csrf_token %}
+        <input type="checkbox" name="return_checkbox" value="{{ book.id }}">
+        {{ book.title }}
+    <button type="submit">返却</button>
+</form>
+{% endfor %}

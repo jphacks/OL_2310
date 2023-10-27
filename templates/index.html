@@ -1,81 +1,43 @@
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>bookmanger</title>
-</head>
+{% if user.is_authenticated %}
+<a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
+<a class="nav-link" href="{% url 'register' %}">レジスター</a>
+<a href="{% url 'mypage' %}">まいぺーじ</a>
+<a href="{% url 'setting' %}">まねーじ</a>
+{% else %}
+<a class="nav-link" href="{% url 'login' %}">ログイン</a>
+{% endif %}
 
 <style>
-    .bg-dark {
-        background-color: #ecc22c !important;
-    }
-    .lo{
-        margin{
-            10px;
-        }
-    }
+    #available{display:none;}
 </style>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-    <a class="navbar-brand">mypage</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
-        <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
-            </li>
-            {% else %}
-            <li class="nav-item active">
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#testModal">ログイン</button>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
-
-<body>
-    {% if user.is_authenticated %}
-        <p>ユーザー：{{ username }}</p>
-    {% endif %}
-</body>
-
-<div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel" >ログイン</h4>
-            </div>
-            <form method="post" action="{% url 'login' %}">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="input-group mb-3" id="lo">
-                            <input type="text" name="username" placeholder="UserName" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-
-                        <div class="input-group mb-3" id="lo">
-                            <input name="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-                        </div>
-                    </div>
-                </div>
-                <a href='{% url "regist" %}'>ユーザー作成</a>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">ログイン</button>
-            </form>
-            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-            </div>
-        </div>
-    </div>
+<div id="all">
+    <button onclick="showAvailableBooks()">貸し出し可の本だけ表示</button>
+    {% for book in books %}
+        {% if book.is_borrowed == False %}
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し可</p>
+        {% else %}
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し中</p>
+        {% endif %}
+    {% endfor %}
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
+<div id="available">
+    <button onclick="showAllBooks()">全て表示</button>
+    {% for book in books %}
+        {% if book.is_borrowed == False %}
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し可</p>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script>
+function showAvailableBooks() {
+    document.getElementById('available').style.display = 'block';
+    document.getElementById('all').style.display = 'none';
+}
+function showAllBooks() {
+    document.getElementById('all').style.display = 'block';
+    document.getElementById('available').style.display = 'none';
+}
+</script>
