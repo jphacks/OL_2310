@@ -11,9 +11,12 @@ class CustomUser(AbstractUser):
 class Book(models.Model):
     title = models.CharField(max_length=100)
     is_borrowed = models.BooleanField(default=False)
-    lend_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
 #タグ
 class Tag(models.Model):
     name = models.CharField(max_length=50)
     books = models.ManyToManyField(Book)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    borrowed_books = models.ManyToManyField(Book, blank=True,null=True)
