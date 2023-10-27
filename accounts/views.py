@@ -34,14 +34,17 @@ def regist(request):
     return redirect('index')
 
 @login_required
-def manage(request):
+def setting(request):
     books = Book.objects.all
+    return render(request,"setting.html",{"books":books})
+
+@login_required
+def add_book(request):
     if request.method =='POST':
         title = request.POST.get('title',None)
         book = Book(title=title)
         book.save()
-        return redirect("manage")
-    return render(request,"manage.html",{"books":books})
+        return redirect("setting")
 
 def detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
