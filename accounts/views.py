@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse,JsonResponse
-from accounts.models import CustomUser,UserProfile,Book
+from accounts.models import CustomUser,UserProfile,Book,Tag
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -45,6 +45,36 @@ def add_book(request):
         book = Book(title=title)
         book.save()
         return redirect("setting")
+
+def create_tag(request):
+    tag_name = request.POST.get('tag_name',None)
+    tag = Tag(name=tag_name)
+    tag.save()
+    return redirect("setting")
+
+def attach_tag(request, book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == 'POST':
+        tag_id = request.POST.get('tag_id')
+        tag = Tag.objects.get(id=tag_id)
+        book.tags.add(tag)
+        return redirect("setting")
+
+def delete_tag(request, tag_id):
+    tag = get_object_or_404(Tag, id=tag_id)
+    if request.method == 'POST':
+        tag.delete()
+        return redirect('setting')
+
+def untag_book(request, book_id):
+    if request.method == 'POST':
+        book = Book.objects.get(id=book_id)
+        selected_tags = request.POST.getlist('tag_id')
+
+        for tag_id in selected_tags:
+            tag = Tag.objects.get(id=tag_id)
+            book.tags.remove(tag)
+    return redirect('setting')
 
 def detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
