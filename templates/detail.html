@@ -1,11 +1,69 @@
-detail
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookmanager</title>
+    <link rel="stylesheet" type="detail.css" href="detail.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+</head>
+
+    <style>
+        .bg-dark {
+            background-color: #c65d4f !important;
+        }
+    </style>
+    <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+        <a class="navbar-brand" href="#">マイページ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">ログイン<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ログアウト</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    </header>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-2">
+                <button type="button" class="btn btn-primary mb-12" data-toggle="modal" data-target="#testModal">借りる</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">確認画面</h4>
+                </div>
+                <div class="modal-body">
+                    <label>この本でよろしいですか？</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-danger">借りる</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <a href="{% url 'index' %}">トップ</a>
 
 <!--本のタイトル-->
 {{ book.title }}
 
 <!--借りるボタン-->
-{% if book.is_borrowed == False %}
+{% if book.is_borrowed is False %}
 <form action="{% url 'borrow_book' book.id %}" method="post">
     {% csrf_token %}
     <button type="submit">借りる</button>
@@ -13,3 +71,6 @@ detail
 {% else %}
 <p>貸し出し中です</p>
 {% endif %}
+
+</body>
+</html>
