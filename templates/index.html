@@ -12,15 +12,6 @@
             background-color: #ecc22c !important;
         }
     </style>
-    <nav class="navbar navbar-sm bg-dark">
-        <div class="container container-sm text-center">
-            <div class="row row-cols-4 text-bg-info p-3">
-                <div class="col"><a class="nav-link" href="{% url 'login' %}">ログイン</a></div>
-                <div class="col"><a class="nav-link" href="{% url 'logout' %}">ログアウト</a></div>
-                <div class="col"><a class="nav-link" href="{% url 'mypage' %}">マイページ</a></div>
-                <div class="col"><a class="nav-link" href="{% url 'setting' %}">セッティング</a></div>
-            </div>
-        </div>
         <div class="container container-fluid !justify !spacing">{# <navigation> #}
             <div class="row row-cols-4">
                 {% if user.is_authenticated %}

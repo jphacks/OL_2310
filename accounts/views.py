@@ -102,16 +102,13 @@ def detail(request, book_id):
 
 @login_required
 def borrow_book(request,book_id):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            book = get_object_or_404(Book,id=book_id)
-            user_profile = UserProfile.objects.get(user=request.user)
-            book.is_borrowed = True
-            book.save()
-            user_profile.borrowed_books.add(book)
-            return redirect("detail",book_id=book_id)
-    else:
-        return redirect("login")
+    if request.method == 'POST':
+        book = get_object_or_404(Book,id=book_id)
+        user_profile = UserProfile.objects.get(user=request.user)
+        book.is_borrowed = True
+        book.save()
+        user_profile.borrowed_books.add(book)
+        return redirect("detail",book_id=book_id)
 
 @login_required
 def return_books(request):
