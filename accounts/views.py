@@ -46,6 +46,20 @@ def add_book(request):
         book.save()
         return redirect("setting")
 
+def delete_book(request, book_id):
+    if request.method == 'POST':
+        book = Book.objects.get(id=book_id)
+        book.delete()
+        return redirect('setting')
+
+def edit_book(request,book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == "POST":
+        new_title = request.POST.get('title',None)
+        book.title = new_title
+        book.save()
+        return redirect("setting")
+
 def create_tag(request):
     tag_name = request.POST.get('tag_name',None)
     tag = Tag(name=tag_name)

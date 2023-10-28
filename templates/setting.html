@@ -1,12 +1,117 @@
 setting
+
+<style>
+    .hidden{display:none;}
+</style>
+
 <a href="{% url 'index' %}">トップ</a>
 
-<form action="{% url 'add_book' %}" method="post">
+<button onclick="Open('AddBook')">本を追加</button>
+<button onclick="Open('BookList')">本一覧</button>
+<button onclick="Open('CreateTag')">タグを作成</button>
+<button onclick="Open('TagList')">タグ一覧</button>
+
+<form method="post" action="{% url 'add_book' %}" id="AddBook" class="hidden">
     {% csrf_token %}
-    <input type="text" name="title">
-    <button type="submit">送信</button>
+    <input type="text" name="title" placeholder="タイトル" required>
+    <button type="submit">追加</button>
 </form>
 
-{% for book in books %}
-    <p>{{ book.title }}</p>
+<div id="BookList" class="hidden">
+    <div id="normal">
+        <button onclick="show('delete','normal')">本を削除する</button><br>
+
+        {% for book in books %}
+
+        <div id="title{{ book.id }}">
+            <button onclick="show('edit{{ book.id }}','title{{ book.id }}')">タイトルを変更する</button>
+            <button onclick="show('AttachTag{{ book.id }}',title{{ book.id }})">タグ付けする</button>
+            <button onclick="show('unTag{{ book.id }}',title{{ book.id }})">タグを外す</button>
+            <p>{{ book.title }}:{% for tag in book.tags.all %}{{ tag.name }}{% endfor %}</p>
+        </div>
+
+        <div id="edit{{ book.id }}" class="hidden">
+            <form action="{% url 'edit_book' book.id %}" method="post">
+                {% csrf_token %}
+                <input name="title" value="{{ book.title }}">
+                <button>変更</button>
+            </form>
+            <button onclick="show('title{{ book.id }}','edit{{ book.id }}')">キャンセル</button>
+        </div>
+
+        <div class="hidden" id="AttachTag{{ book.id }}">
+            <form method="post" action="{% url 'attach_tag' book.id %}"> 
+                {% csrf_token %}
+                <select name="tag_id">
+                    {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">タグを付与</button>
+            </form>
+            <button onclick="show('title{{ book.id }}','AttachTag{{ book.id }}')">キャンセル</button>
+        </div>
+
+        <div class="hidden" id="unTag{{ book.id }}">
+            <form method="post" action="{% url 'untag_book' book.id %}">
+                {% csrf_token %}
+                {% for tag in book.tags.all %}
+                    <input type="checkbox" name="tag_id" value="{{ tag.id }}">{{ tag.name }}<br>
+                {% endfor %}
+                <button type="submit">選択したタグを外す</button>
+            </form>
+            <button onclick="show('title{{ book.id }}','unTag{{ book.id }}')">キャンセル</button>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+<div id="delete" class="hidden">
+    <button onclick="show('normal','delete')">戻る</button>
+    {% for book in books %}
+    <form action="{% url 'delete_book' book.id %}" method="post">
+        {% csrf_token %}
+        {{ book.title }}
+        <button>削除</button>
+    </form>
+    {% endfor %}
+</div>
+
+
+<form method="post" action="{% url 'create_tag' %}" id="CreateTag" class="hidden">
+    {% csrf_token %}
+    <input name="tag_name" placeholder="タグ名" required>
+    <button type="submit">タグを作成</button>
+</form>
+
+<div id="TagList" class="hidden">
+    <button onclick="show('deleteTag','TagList')">タグを削除する</button>
+    {% for tag in tags %}
+        <p>{{ tag.name }}</p>
+    {% endfor %}
+</div>
+
+<div class="hidden" id="deleteTag">
+{% for tag in tags %}
+    <form action="{% url 'delete_tag' tag.id %}" method="post">
+        {% csrf_token %}
+        {{ tag.name }}
+        <button>削除</button>
+    </form><br>
 {% endfor %}
+<button onclick="show('TagList','deleteTag')">キャンセル</button>
+</div>
+
+<script>
+    function show(show,hidden){
+        document.getElementById(show).style.display = 'block';
+        document.getElementById(hidden).style.display = 'none';
+    };
+    function Open(target) {
+        var t = document.getElementById(target);
+        var isOpen = t.style.display === 'block';
+        
+        t.style.display = isOpen ? 'none' : 'block';
+    }
+</script>
