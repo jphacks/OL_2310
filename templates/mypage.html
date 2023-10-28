@@ -1,15 +1,101 @@
-mypage
-<a href="{% url 'index' %}">トップ</a>
-{{ username }}
-
-<!--借りている本のリスト表示-->
-{% for book in borrowed_books %}
-<form method="post" action="{% url 'return_books' %}">
-    {% csrf_token %}
-        <input type="checkbox" name="return_checkbox" value="{{ book.id }}">
-        {{ book.title }}
-    <button type="submit">返却</button>
-</form>
-{% endfor %}
-
-こここ
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>テーブルサンプル</title>
+  </head>
+  
+  
+  <nav class="navbar navbar-expand-sm navbar-dark bg-warning mt-3 mb-3">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Navbar</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">新規登録</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">データ一覧</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">エクスポート</a>
+            </li>
+        </ul>
+    </div>
+  </nav>
+  
+  <body>
+    <div class="col-5 ml-3">
+        <form>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>タイトル</th>
+                        <th>タグ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" name="borrow_checkbox" value="{{ book.id }}" class="form-check-input" id="inline_checkbox_2">
+                            </div>
+                        </td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.tag }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            
+            <body>
+              <!-- モーダルを開くボタン・リンク -->
+              <div class="container">
+                  <div class="row my-3">
+                      
+                  </div>
+                  <div class="row mb-5">
+                      <div class="col-2">
+                          <button type="button" class="btn btn-danger mb-12" data-toggle="modal" data-target="#testModal">返却</button>
+                      </div>
+                      
+                  </div>
+              </div>
+          
+              <!-- ボタン・リンククリック後に表示される画面の内容 -->
+              <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h4>返却確認画面</h4></h4>
+                          </div>
+                          <div class="modal-body">
+                              <label>返却しますか？</label>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                              <button type="button" class="btn btn-danger">返却</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            
+      
+  
+        
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+  
+  
