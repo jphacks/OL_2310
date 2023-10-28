@@ -1,7 +1,7 @@
 #urlパターンを実装するところ
 from django.contrib import admin
 from django.urls import path
-from accounts.views import index,user_login,register,detail,setting,mypage,borrow_book,return_books,add_book,delete_book,edit_book,create_tag,attach_tag,delete_tag,untag_book
+from accounts.views import index,user_login,regist,detail,setting,mypage,borrow_book,return_books,add_book,delete_book,edit_book,create_tag,attach_tag,delete_tag,untag_book
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
