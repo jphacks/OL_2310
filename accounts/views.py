@@ -35,8 +35,9 @@ def regist(request):
 
 @login_required
 def setting(request):
-    books = Book.objects.all
-    return render(request,"setting.html",{"books":books})
+    books = Book.objects.all()
+    tags = Tag.objects.all()
+    return render(request,"setting.html",{"books":books,"tags":tags})
 
 @login_required
 def add_book(request):
@@ -46,12 +47,14 @@ def add_book(request):
         book.save()
         return redirect("setting")
 
+@login_required
 def delete_book(request, book_id):
     if request.method == 'POST':
         book = Book.objects.get(id=book_id)
         book.delete()
         return redirect('setting')
 
+@login_required
 def edit_book(request,book_id):
     book = Book.objects.get(id=book_id)
     if request.method == "POST":
@@ -60,12 +63,14 @@ def edit_book(request,book_id):
         book.save()
         return redirect("setting")
 
+@login_required
 def create_tag(request):
     tag_name = request.POST.get('tag_name',None)
     tag = Tag(name=tag_name)
     tag.save()
     return redirect("setting")
 
+@login_required
 def attach_tag(request, book_id):
     book = Book.objects.get(id=book_id)
     if request.method == 'POST':
@@ -74,17 +79,18 @@ def attach_tag(request, book_id):
         book.tags.add(tag)
         return redirect("setting")
 
+@login_required
 def delete_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)
     if request.method == 'POST':
         tag.delete()
         return redirect('setting')
 
+@login_required
 def untag_book(request, book_id):
     if request.method == 'POST':
         book = Book.objects.get(id=book_id)
         selected_tags = request.POST.getlist('tag_id')
-
         for tag_id in selected_tags:
             tag = Tag.objects.get(id=tag_id)
             book.tags.remove(tag)
