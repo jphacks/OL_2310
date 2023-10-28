@@ -43,7 +43,8 @@ def setting(request):
 def add_book(request):
     if request.method =='POST':
         title = request.POST.get('title',None)
-        book = Book(title=title)
+        user = request.user
+        book = Book(title=title,account=user)
         book.save()
         return redirect("setting")
 
