@@ -15,9 +15,9 @@
     <button onclick="showAvailableBooks()">貸し出し可の本だけ表示</button>
     {% for book in books %}
         {% if book.is_borrowed == False %}
-        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し可</p>
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>{% for tag in book.tags.all %}:{{ tag.name }}{% endfor %}:貸し出し可</p>
         {% else %}
-        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し中</p>
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>{% for tag in book.tags.all %}:{{ tag.name }}{% endfor %}:貸し出し中</p>
         {% endif %}
     {% endfor %}
 </div>
@@ -26,7 +26,7 @@
     <button onclick="showAllBooks()">全て表示</button>
     {% for book in books %}
         {% if book.is_borrowed == False %}
-        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>:貸し出し可</p>
+        <p>・タイトル：<a href="{% url 'detail' book.id %}">{{ book.title }}</a>{% for tag in book.tags.all %}:{{ tag.name }}{% endfor %}:貸し出し可</p>
         {% endif %}
     {% endfor %}
 </div>
