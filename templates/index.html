@@ -11,6 +11,7 @@
         .bg-dark {
             background-color: #ecc22c !important;
         }
+        #available {display: none;}
     </style>
         <div class="container container-fluid !justify !spacing">{# <navigation> #}
             <div class="row row-cols-4">
@@ -30,9 +31,6 @@
             <p class="h2">蔵書一覧</p>
             <div class="row">
                 <div id="all">
-                    <style>
-                        #available {display: none;}
-                    </style>
                     <button onclick="showAvailableBooks()">貸し出し可の本だけ表示</button>
                     <table class="table table-warning table-hover table-responsive-sm">
                         <thead>

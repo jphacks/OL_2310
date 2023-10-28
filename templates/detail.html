@@ -15,60 +15,43 @@
             background-color: #c65d4f !important;
         }
     </style>
-    <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-        <a class="navbar-brand" href="#">マイページ</a>
+        <a href="{% url 'index' %}">トップ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
             <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">ログイン<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#">ログアウト</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ログイン<span class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
-    </header>
+    {{ book.title }}
+    {% if book.is_borrowed is False %}
     <div class="container">
         <div class="row mb-5">
             <div class="col-2">
-                <button type="button" class="btn btn-primary mb-12" data-toggle="modal" data-target="#testModal">借りる</button>
+                <form action="{% url 'borrow_book' book.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">借りる</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">確認画面</h4>
-                </div>
-                <div class="modal-body">
-                    <label>この本でよろしいですか？</label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-                    <button type="button" class="btn btn-danger">借りる</button>
-                </div>
-            </div>
-        </div>
-    </div>
-<a href="{% url 'index' %}">トップ</a>
 
-{{ book.title }}
+    {% else %}
+    <p>貸し出し中です</p>
+    {% endif %}
 
-{% if book.is_borrowed is False %}
-<form action="{% url 'borrow_book' book.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit">借りる</button>
-</form>
-{% else %}
-<p>貸し出し中です</p>
-{% endif %}
 
 </body>
 </html>
