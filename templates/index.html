@@ -48,7 +48,7 @@
                         </thead>
                         <tbody>
                             {% for book in books %}
-                                {% if not book.is_borrowed %}
+                                {% if book.is_borrowed is False %}
                                     <tr>
                                         <td>
                                             <div class="col-2 text-truncate">
@@ -60,8 +60,22 @@
                                                 {{ tag.name }}
                                             {% endfor %}
                                         </td>
-                                        <td>{{ book.is_borrowed }}</td>
+                                        <td>貸し出し可</td>
                                     </tr>
+                                {% else %}
+                                <tr>
+                                    <td>
+                                        <div class="col-2 text-truncate">
+                                            <a href="{% url 'detail' book.id %}">{{ book.title }}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% for tag in book.tags.all %}
+                                            {{ tag.name }}
+                                        {% endfor %}
+                                    </td>
+                                    <td>貸し出し中</td>
+                                </tr>
                                 {% endif %}
                             {% endfor %}
                         </tbody>
@@ -83,7 +97,7 @@
                         </thead>
                         <tbody>
                             {% for book in books %}
-                                {% if not book.is_borrowed %}
+                                {% if book.is_borrowed is False %}
                                     <tr>
                                         <td>
                                             <div class="col-2 text-truncate">
@@ -95,7 +109,7 @@
                                                 {{ tag.name }}
                                             {% endfor %}
                                         </td>
-                                        <td>{{ book.is_borrowed }}</td>
+                                        <td>貸し出し可</td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
