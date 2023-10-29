@@ -37,7 +37,10 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-2">
-                <button data-toggle="modal" data-target="#testModal">借りる</button>
+                <form action="{% url 'borrow_book' book.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">借りる</button>
+                </form>
             </div>
         </div>
     </div>
@@ -57,11 +60,7 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
                     
                 <!--借りるボタン-->
-                <form action="{% url 'borrow_book' book.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">借りる</button>
-                </form>
-            </div>
+            
         </div>
     </div>
 </div>
