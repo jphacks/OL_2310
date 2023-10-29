@@ -12,17 +12,29 @@
     <style>
         .bg-dark {background-color: #ecc22c !important;}
     </style>
-        <div class="container container-fluid !justify !spacing">{# <navigation> #}
-            <div class="row row-cols-4">
-                {% if user.is_authenticated %}
-                    <div class="col"><a class="nav-link" href="{% url 'logout' %}">ログアウト</a></div>
-                    <div class="col"><a class="nav-link" href="{% url 'mypage' %}">マイページ</a></div>
-                    <div class="col"><a class="nav-link" href="{% url 'setting' %}">セッティング</a></div>
-                {% else %}
-                    <div class="col"><a class="nav-link" href="{% url 'login' %}">ログイン</a></div>
-                {% endif %}
+        
+        <nav class="navbar navbar-expand-sm navbar-dark bg-warning mt-3 mb-3">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">トップページ</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    {{username}}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'mypage' %}">マイページ</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'setting' %}">セッティング</a>
+                    </li>
+                   
+        
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
+                    </li>
+                </ul>
             </div>
-        </div>
+          </nav>
     </nav>
 
     <body>
