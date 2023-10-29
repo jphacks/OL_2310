@@ -1,8 +1,21 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse,JsonResponse
-from accounts.models import CustomUser,UserProfile,Book,Tag
+from accounts.models import CustomUser,UserProfile,Book,Tag,BookShelf
 from django.contrib.auth.decorators import login_required
+
+def top(request):
+    bookshelf = BookShelf.objects.all()
+    return render(request,"top.html",{"bookshelf":bookshelf})
+
+def create_bookshelf(request):
+    if request.method == "POST":
+        name = request.POST.get('name', None)
+        user =request.user
+        member = request.user
+        bookshelf = BookShelf(name=name,user=user,member=member)
+        bookshelf.save()
+        return redirect("top")
 
 def index(request):
     username = request.user.username
