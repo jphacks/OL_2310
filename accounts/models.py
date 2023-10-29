@@ -8,6 +8,8 @@ class CustomUser(AbstractUser):
 
 class BookShelf(models.Model):
     name = models.CharField(max_length=50)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    members = models.ManyToManyField(CustomUser, related_name='bookshelves') 
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
