@@ -87,6 +87,15 @@ def delete_tag(request, tag_id):
         return redirect('setting')
 
 @login_required
+def edit_tag(request,tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    if request.method == "POST":
+        new_name = request.POST.get('name',None)
+        tag.name = new_name
+        tag.save()
+        return redirect("setting")
+
+@login_required
 def untag_book(request, book_id):
     if request.method == 'POST':
         book = Book.objects.get(id=book_id)
