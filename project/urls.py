@@ -1,14 +1,12 @@
 #urlパターンを実装するところ
 from django.contrib import admin
 from django.urls import path
-from accounts.views import top,create_bookshelf,index,user_login,regist,detail,setting,mypage,borrow_book,return_books,add_book,delete_book,edit_book,create_tag,attach_tag,delete_tag,untag_book,edit_tag
+from accounts.views import index,user_login,regist,detail,setting,mypage,borrow_book,return_books,add_book,delete_book,edit_book,create_tag,attach_tag,delete_tag,untag_book,edit_tag
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",top,name="top"),
-    path("index/",index,name="index"),
-    path("create_bookshelf",create_bookshelf,name="create_bookshelf"),
+    path("",index,name="index"),
     path("login/",user_login,name="login"),
     path("regist/",regist,name="regist"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
