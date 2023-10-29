@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",top,name="top"),
     path("index/",index,name="index"),
-    path("create_bookshelf",create_bookshelf,name="create_bookshelf"4),
+    path("create_bookshelf",create_bookshelf,name="create_bookshelf"),
     path("login/",user_login,name="login"),
     path("regist/",regist,name="regist"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
