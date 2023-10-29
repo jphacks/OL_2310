@@ -1,6 +1,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <title>bookmanager</title>
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -22,49 +23,45 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'setting' %}">セッティング</a>
             </li>
-           
-
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
             </li>
         </ul>
     </div>
-  </nav>
+    </nav>
 
 
 <div class="row">
-    
-        <table class="table table-warning table-hover table-responsive-sm">
-            <thead>
+    <table class="table table-warning table-hover table-responsive-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">タイトル</th>
+                <th scope="col">タグ</th>
+            </tr>
+        </thead>
+        {% if borrowed_books %}
+        <form method="post" action="{% url 'return_books' %}">
+            {% csrf_token %}
+            {% for book in borrowed_books%}
+            <tbody>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">タイトル</th>
-                    <th scope="col">タグ</th>
-                </tr>
-            </thead>
-            {% if borrowed_books %}
-            <form method="post" action="{% url 'return_books' %}">
-                {% csrf_token %}
-                {% for book in borrowed_books%}
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="return_checkbox" value="{{ book.id }}">
-                        </td>
-                        <td>
-                            {{book.title}}
-                        </td>
-                        <td>{% for tag in book.tags.all %}{{ tag.name }}{% endfor %}</td>
-                        </tr>
-                </tbody>
-                {% endfor %}
-                <button type="submit">返却</button>
-            </form>
-            {% else %}
-            <p>借りている本がありません</p>
-            {% endif %}
-        </table>
-    
+                    <td>
+                        <input type="checkbox" name="return_checkbox" value="{{ book.id }}">
+                    </td>
+                    <td>
+                        {{book.title}}
+                    </td>
+                    <td>{% for tag in book.tags.all %}{{ tag.name }}{% endfor %}</td>
+                    </tr>
+            </tbody>
+            {% endfor %}
+            <button type="submit">返却</button>
+        </form>
+        {% else %}
+        <p>借りている本がありません</p>
+        {% endif %}
+    </table>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
