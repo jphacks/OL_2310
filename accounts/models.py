@@ -24,3 +24,4 @@ class Tag(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     borrowed_books = models.ManyToManyField(Book, blank=True,null=True)
+    borrow_at = models.DateTimeField(auto_now_add=True,null=True)
