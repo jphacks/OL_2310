@@ -96,7 +96,17 @@ setting
     <button onclick="show('CreateTag','create_tag_bt')" id="create_tag_bt">タグを作成</button>
     <button onclick="show('deleteTag','TagList')">タグを削除する</button>
     {% for tag in tags %}
-        <p>・{{ tag.name }}</p>
+        <div id="Tag{{ tag.id }}">
+            <button onclick="show('EditTag{{ tag.id }}','Tag{{ tag.id }}')">タグの名前を変更</button>
+            <p>・{{ tag.name }}</p>
+        </div>
+        <div class="hidden" id="EditTag{{ tag.id }}">
+            <form action="{% url 'edit_tag' tag.id %}">
+                <input name="name" value="{{ tag.name }}">
+                <button type="submit">変更</button>
+            </form>
+            <button onclick="show('Tag{{ tag.id }}','EditTag{{ tag.id }}')">キャンセル</button>
+        </div>
     {% endfor %}
 </div>
 
